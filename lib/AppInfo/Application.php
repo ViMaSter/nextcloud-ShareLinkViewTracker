@@ -4,6 +4,8 @@ declare(strict_types=1);
 
 namespace OCA\ShareLinkViewTracker\AppInfo;
 
+use OCA\Files_Sharing\Event\ShareLinkAccessedEvent;
+use OCA\ShareLinkViewTracker\Listener\PublicShareAccessListener;
 use OCP\AppFramework\App;
 use OCP\AppFramework\Bootstrap\IBootContext;
 use OCP\AppFramework\Bootstrap\IBootstrap;
@@ -18,6 +20,7 @@ class Application extends App implements IBootstrap {
 	}
 
 	public function register(IRegistrationContext $context): void {
+		$context->registerEventListener(ShareLinkAccessedEvent::class, PublicShareAccessListener::class);
 	}
 
 	public function boot(IBootContext $context): void {

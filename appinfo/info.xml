@@ -13,8 +13,16 @@
 	<category>social</category>
 	<bugs>https://by.vincent.mahn.ke/issues</bugs>
 	<dependencies>
-		<nextcloud min-version="31" max-version="32"/>
+		<nextcloud min-version="31" max-version="33"/>
 	</dependencies>
+	<activity>
+		<settings>
+			<setting>OCA\ShareLinkViewTracker\Activity\Setting</setting>
+		</settings>
+		<providers>
+			<provider>OCA\ShareLinkViewTracker\Activity\Provider</provider>
+		</providers>
+	</activity>
 	<navigations>
 		<navigation>
 			<id>sharelinkviewtracker</id>
