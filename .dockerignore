@@ -1,0 +1,5 @@
+**
+!packaging/
+!packaging/Dockerfile
+!dist/
+!dist/*.tar.gz
