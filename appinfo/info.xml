@@ -5,7 +5,7 @@
 	<name>Share Link View Tracker</name>
 	<summary>Tracks whenever a share is viewed</summary>
 	<description>By default shares only track downloads; now views are tracked too</description>
-	<version>1.0.0</version>
+	<version>1.0.1</version>
 	<licence>AGPL-3.0-or-later</licence>
 	<author mail="vincent@mahn.ke" homepage="https://by.vincent.mahn.ke/">Vincent Mahnke</author>
 	<namespace>ShareLinkViewTracker</namespace>
@@ -13,7 +13,7 @@
 	<category>social</category>
 	<bugs>https://by.vincent.mahn.ke/issues</bugs>
 	<dependencies>
-		<nextcloud min-version="31" max-version="33"/>
+		<nextcloud min-version="31" max-version="34"/>
 	</dependencies>
 	<activity>
 		<settings>
