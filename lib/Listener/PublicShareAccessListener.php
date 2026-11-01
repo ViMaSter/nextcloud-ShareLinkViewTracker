@@ -4,8 +4,8 @@ declare(strict_types=1);
 
 namespace OCA\ShareLinkViewTracker\Listener;
 
-use OCA\Files_Sharing\Event\ShareLinkAccessedEvent;
 use OCA\Files_Sharing\Controller\ShareController;
+use OCA\Files_Sharing\Event\ShareLinkAccessedEvent;
 use OCA\ShareLinkViewTracker\Activity\Extension;
 use OCP\Activity\IManager as IActivityManager;
 use OCP\EventDispatcher\Event;
@@ -14,6 +14,7 @@ use OCP\IRequest;
 
 /** @template-implements IEventListener<ShareLinkAccessedEvent> */
 class PublicShareAccessListener implements IEventListener {
+	/** @psalm-suppress PossiblyUnusedMethod */
 	public function __construct(
 		private IRequest $request,
 		private IActivityManager $activityManager,
