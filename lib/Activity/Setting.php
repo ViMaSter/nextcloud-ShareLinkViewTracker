@@ -7,8 +7,13 @@ namespace OCA\ShareLinkViewTracker\Activity;
 use OCP\Activity\ActivitySettings;
 use OCP\IL10N;
 
+/**
+ * @psalm-suppress UnusedClass Registered in appinfo/info.xml
+ */
 class Setting extends ActivitySettings {
-	public function __construct(private IL10N $l) {
+	public function __construct(
+		private IL10N $l,
+	) {
 	}
 
 	public function getIdentifier(): string {

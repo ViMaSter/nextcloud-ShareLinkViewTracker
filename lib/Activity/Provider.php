@@ -11,6 +11,9 @@ use OCP\Activity\IProvider;
 use OCP\IURLGenerator;
 use OCP\L10N\IFactory;
 
+/**
+ * @psalm-suppress UnusedClass Registered in appinfo/info.xml
+ */
 class Provider implements IProvider {
 	public function __construct(
 		private IFactory $languageFactory,
@@ -26,7 +29,7 @@ class Provider implements IProvider {
 
 		$l = $this->languageFactory->get(Extension::APP_NAME, $language);
 		$params = $event->getSubjectParameters();
-		$ip = $params[1] ?? '';
+		$ip = isset($params[1]) && is_string($params[1]) ? $params[1] : '';
 
 		$icon = $this->activityManager->getRequirePNG()
 			? $this->url->getAbsoluteURL($this->url->imagePath('core', 'actions/shared.png'))
