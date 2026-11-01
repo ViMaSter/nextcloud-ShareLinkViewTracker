@@ -21,14 +21,15 @@
   },
   "devDependencies": {
     "@nextcloud/browserslist-config": "^3.1.2",
-    "@nextcloud/eslint-config": "^8.4.2",
+    "@nextcloud/eslint-config": "^9.0.1",
     "@nextcloud/stylelint-config": "^3.1.1",
     "@nextcloud/vite-config": "^2.5.2",
     "@vue/tsconfig": "^0.8.1",
-    "fast-xml-parser": "^5.0.0",
+    "eslint": "^10.14.0",
+    "fast-xml-parser": "^5.11.2",
     "semver": "^7.7.3",
     "typescript": "^5.9.3",
-    "vite": "^7.2.7"
+    "vite": "^7.3.7"
   },
   "engines": {
     "node": "^24.0.0",
