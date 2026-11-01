@@ -17,25 +17,25 @@ on:
 permissions:
   contents: read
 
+concurrency:
+  group: npm-audit-fix
+  cancel-in-progress: false
+
 jobs:
   build:
     runs-on: ubuntu-latest
+    permissions:
+      contents: write
+      pull-requests: write
 
-    strategy:
-      fail-fast: false
-      matrix:
-        branches: ['main', 'master', 'stable31', 'stable30']
-
-    name: npm-audit-fix-${{ matrix.branches }}
+    name: npm-audit-fix
 
     steps:
       - name: Checkout
-        id: checkout
         uses: actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683 # v4.2.2
         with:
           persist-credentials: false
-          ref: ${{ matrix.branches }}
-        continue-on-error: true
+          ref: ${{ github.event.repository.default_branch }}
 
       - name: Read package.json node and npm engines version
         uses: skjnldsv/read-package-engines-version-actions@06d6baf7d8f41934ab630e97d9e6c0bc9c9ac5e4 # v3
@@ -53,29 +53,26 @@ jobs:
         run: npm i -g 'npm@${{ steps.versions.outputs.npmVersion }}'
 
       - name: Fix npm audit
-        id: npm-audit
-        uses: nextcloud-libraries/npm-audit-action@1b1728b2b4a7a78d69de65608efcf4db0e3e42d0 # v0.2.0
+        run: |
+          node scripts/npm-audit-fix.mjs > "$RUNNER_TEMP/npm-audit.md"
+          cat "$RUNNER_TEMP/npm-audit.md" >> "$GITHUB_STEP_SUMMARY"
 
       - name: Run npm ci and npm run build
-        if: steps.checkout.outcome == 'success'
         env:
           CYPRESS_INSTALL_BINARY: 0
+          PUPPETEER_SKIP_DOWNLOAD: true
         run: |
           npm ci
-          npm run build --if-present
+          node --test scripts/*.test.mjs
+          npm run build
 
       - name: Create Pull Request
-        if: steps.checkout.outcome == 'success'
         uses: peter-evans/create-pull-request@271a8d0340265f705b14b6d32b9829c1cb33d45e # v7.0.8
         with:
-          token: ${{ secrets.COMMAND_BOT_PAT }}
           commit-message: 'fix(deps): Fix npm audit'
-          committer: GitHub <noreply@github.com>
-          author: nextcloud-command <nextcloud-command@users.noreply.github.com>
           signoff: true
-          branch: automated/noid/${{ matrix.branches }}-fix-npm-audit
-          title: '[${{ matrix.branches }}] Fix npm audit'
-          body: ${{ steps.npm-audit.outputs.markdown }}
-          labels: |
-            dependencies
-            3. to review
+          base: ${{ github.event.repository.default_branch }}
+          branch: automated/noid/${{ github.event.repository.default_branch }}-fix-npm-audit
+          title: 'fix(deps): Fix npm audit'
+          body-path: ${{ runner.temp }}/npm-audit.md
+          labels: dependencies
