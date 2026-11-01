@@ -9,6 +9,27 @@ Based on the template to get started with Nextcloud app development.
 - Open the activity tab that lists things like `Downloaded via public link` and `Shared as public link`
 - Notice "Viewed by 123.123.123.123" in the activity details of the "Shared as public link" entry
 
+## Automated dependency maintenance
+
+The weekly **Npm audit fix and compile** workflow operates only on the repository's
+default branch. It runs native `npm audit fix --package-lock-only --ignore-scripts`
+without `--force`, tests and builds the result, and opens or updates a dependency PR.
+Remaining vulnerabilities are reported in the workflow summary and PR body, not
+treated as a clean audit. Registry, dependency-resolution, and invalid-report
+errors still fail the workflow.
+
+PR creation uses `GITHUB_TOKEN`, so no `COMMAND_BOT_PAT` secret is required.
+Enable **Settings > Actions > General > Workflow permissions > Allow GitHub
+Actions to create and approve pull requests**. The job requests write access to
+contents and pull requests; it does not approve or merge PRs. GitHub may require a
+maintainer to approve workflows on the generated PR before its checks run.
+
+Run the audit workflow's regression tests locally with:
+
+```sh
+node --test scripts/npm-audit-fix.test.mjs
+```
+
 ## Releases without the App Store
 
 The release workflow builds the app on pull requests and publishes stable semver
